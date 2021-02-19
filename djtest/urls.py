@@ -18,5 +18,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('tft/', include('tft.urls')), # 해당 라인을 추가
+    path('tft/', include('tft.urls')),
 ]
