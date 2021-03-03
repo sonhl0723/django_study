@@ -25,6 +25,8 @@ def search(request):
     return render(request, 'search.html', {'user_info':user_info})
 
 def search_result(request):
+    GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
+    CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
     # 새로운 chrome 창 안뜨게 설정
     driver_options = webdriver.ChromeOptions()
     driver_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
