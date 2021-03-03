@@ -27,8 +27,8 @@ def search(request):
     return render(request, 'search.html', {'user_info':user_info})
 
 def search_result(request):
-    # CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
-    # GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
+    CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
+    GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
     # 새로운 chrome 창 안뜨게 설정
     driver_options = webdriver.ChromeOptions()
     
@@ -37,12 +37,12 @@ def search_result(request):
     driver_options.add_argument("--no-sandbox")
     driver_options.add_argument('lang=ko_KR') # 언어 설정
     # driver_options.binary_location = GOOGLE_CHROME_PATH
-    # driver_options.binary_location = os.environ.get('GOOGLE_CHROME_PATH')
+    driver_options.binary_location = os.environ.get('GOOGLE_CHROME_PATH')
 
     # riot developer 접속
-    driver = webdriver.Chrome(executable_path=os.path.abspath("chromedriver"), chrome_options=driver_options)
-    # driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=driver_options)
-    # driver = webdriver.Chrome(chrome_options=driver_options, executable_path=ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install())
+    # driver = webdriver.Chrome(executable_path=os.path.abspath("chromedriver"), chrome_options=driver_options)
+    # driver = webdriver.Chrome(executable_path=str(os.environ.get('CHROMEDRIVER_PATH'), chrome_options=driver_options)
+    driver = webdriver.Chrome(chrome_options=driver_options, executable_path=ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install())
     driver.get("https://developer.riotgames.com/")
 
     # LOGIN 버튼 클릭
