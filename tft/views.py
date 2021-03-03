@@ -52,7 +52,6 @@ def search_result(request):
 
     if request.method == "POST":
         api_key = pyperclip.paste()
-        print(api_key)
 
         # summonerName 검색으로 encryptedSummonerId 얻기
         summonerName = request.POST.get('search_name')

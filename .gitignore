@@ -1,3 +1,2 @@
 *.sqlite
 __pycache__/
-my_settings.py
