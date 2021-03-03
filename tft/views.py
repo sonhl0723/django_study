@@ -3,39 +3,72 @@ from django.http import HttpResponse
 from django.template import loader
 import requests
 import json
+# selenium 모듈
+from selenium import webdriver
+# riot api 키 복사 후 붙여넣기 기능 모듈
+import pyperclip
+import os
 
-# selenium 불러오기
-# import os
-# from selenium import webdriver
-# from webdriver_manager.chrome import ChromeDriverManagr
+def login(request):
+    return render(request, 'login.html')
 
-# URL="https://www.gopax.co.kr/exchange/btc-krw"
+def search(request):
 
-# def index(self):
-#     driver = webdriver.Chrome(ChromeDriverManagr.install())
-#     driver.implicitly_wait(10)
+    user_id = request.POST.get('user_id')
+    user_pwd = request.POST.get('user_pwd')
 
-#     driver.get(URL)
-    
-#     bitcoin_price = driver.get.find_element_by_class_name('TradingPair__currentPriceValue')
-#     print(bitcoin_price.text)
-#     # return HttpResponse(bitcoin_price)
+    user_info = {
+        'id' : user_id,
+        'pwd' : user_pwd
+    }
 
-def index(request):
-    return render(request, 'index.html')
+    return render(request, 'search.html', {'user_info':user_info})
 
 def search_result(request):
-    if request.method == "GET":
-        # api_key / params 설정
-        api_key = 'RGAPI-d6f8cd1e-c35b-48e1-99e0-d455318676da'
-        params = {'api_key': api_key}
+    # 새로운 chrome 창 안뜨게 설정
+    driver_options = webdriver.ChromeOptions()
+    # driver_options.add_argument('headless') # 새로운 창 사용 중지
+    driver_options.add_argument('disable-gpu')
+    driver_options.add_argument('lang=ko_KR') # 언어 설정
+
+    # riot developer 접속
+    driver = webdriver.Chrome(executable_path=os.path.abspath("chromedriver"), chrome_options=driver_options) 
+    driver.get("https://developer.riotgames.com/")
+
+    # LOGIN 버튼 클릭
+    driver.find_element_by_css_selector(".navbar-avatar").click()
+
+    # riot 아이디 / 비밀번호 입력 후 로그인 버튼 클릭
+    driver.implicitly_wait(5)
+    admin_id = driver.find_element_by_name("username")
+    admin_pwd = driver.find_element_by_name("password")
+    admin_id.send_keys(request.POST.get('user_id'))
+    admin_pwd.send_keys(request.POST.get('user_pwd'))
+    driver.find_element_by_css_selector(".mobile-button").click()
+
+    driver.implicitly_wait(5)
+    driver.find_element_by_id("apikey_copy").click()
+    driver.implicitly_wait(1)
+
+    if request.method == "POST":
+        api_key = pyperclip.paste()
+        print(api_key)
 
         # summonerName 검색으로 encryptedSummonerId 얻기
-        summonerName = request.GET.get('search_name')
+        summonerName = request.POST.get('search_name')
         summoner_url = "https://kr.api.riotgames.com/tft/summoner/v1/summoners/by-name/" + str(summonerName)
         res = requests.get(summoner_url, headers={"X-Riot-Token": api_key})
         summoner_exist = False
         summoner_result = {}
+        user_result = {}
+
+        user_id = request.POST.get('user_id')
+        user_pwd = request.POST.get('user_pwd')
+        user_info = {
+            'user_id' : user_id,
+            'user_pwd' : user_pwd
+        }
+        
         if res.status_code == requests.codes.ok:
             summoner_exist = True
             summoner_result = res.json()
@@ -48,7 +81,6 @@ def search_result(request):
             res_leage = requests.get(leage_url, headers={"X-Riot-Token": api_key})
             leage_result = {}
             leage_result = res_leage.json()
-            user_result = {}
             leage_result = leage_result.pop()
             user_result['rank'] = leage_result['rank']
             user_result['leaguePoints'] = leage_result['leaguePoints']
@@ -56,5 +88,4 @@ def search_result(request):
             user_result['losses'] = leage_result['losses']
             user_result['tier'] = leage_result['tier']
             
-    return render(request, 'search_result.html', {'summoner_exist': summoner_exist, 'user_result': user_result})
-    # return print(json.loads(res.text)
+    return render(request, 'search_result.html', {'summoner_exist': summoner_exist, 'user_result': user_result, 'user_info': user_info})

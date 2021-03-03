@@ -68,38 +68,17 @@
         <div class="card card-outline-secondary my-4">
           <div class="card-body">
             <h3 class="card-title" style="text-align: center;">riot api 이용해서 tft 전적 검색 가보즈아</h3>
-            <form method="get" name="search_form" action="{% url 'tft:search_result' %}">
+            <form method="post" name="search_form" action="{% url 'tft:search_result' %}">
               <div class="input-group">
-                <input type="text" style="left: 37%; flex: none; width: 25%; text-align: center; margin-top: 1%;" class="form-control" placeholder="소환사명" name="search_name"  value="{{search_name}}">
+                <input type="text" style="left: 37%; flex: none; width: 25%; text-align: center; margin-top: 1%;" class="form-control" placeholder="소환사명" name="search_name"  value="{{ search_name }}">
+                <input type="hidden" name="user_id" value="{{ user_info.id }}">
+                <input type="hidden" name="user_pwd" value="{{ user_info.pwd }}">
                 </div>
                 <button type="submit" class="btn btn-success" style="float: right; margin-top: 2%;">전적 검색</a>
             </form>
           </div>
         </div>
-        <!-- /.card -->
-
-        <!-- <div class="card card-outline-secondary my-4">
-          <div class="card-header">
-            Product Reviews
-          </div>
-          <div class="card-body">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
-            <small class="text-muted">Posted by Anonymous on 3/1/17</small>
-            <hr>
-            <a href="#" class="btn btn-success" style="float: right;">Leave a Review</a>
-          </div>
-        </div> -->
-        <!-- /.card -->
-
       </div>
-      <!-- /.col-lg-9 -->
-
     </div>
 
   </div>

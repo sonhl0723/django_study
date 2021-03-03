@@ -4,6 +4,7 @@ from . import views
 app_name = 'tft'
 
 urlpatterns = [
-    path('index/', views.index, name='index'),
+    path('', views.login, name='login'),
+    path('search/', views.search, name='search'),
     path('search_result/', views.search_result, name='search_result'),
 ]
