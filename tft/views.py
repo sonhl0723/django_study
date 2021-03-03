@@ -27,6 +27,7 @@ def search(request):
     return render(request, 'search.html', {'user_info':user_info})
 
 def search_result(request):
+    driver_options = webdriver.ChromeOptions()
     # driver_options.add_argument('--headless') # 새로운 창 사용 중지
     driver_options.add_argument("--disable-dev-shm-usage")
     driver_options.add_argument("--no-sandbox")
