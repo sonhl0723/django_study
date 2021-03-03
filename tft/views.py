@@ -28,11 +28,13 @@ def search_result(request):
     # 새로운 chrome 창 안뜨게 설정
     driver_options = webdriver.ChromeOptions()
     # driver_options.add_argument('headless') # 새로운 창 사용 중지
-    driver_options.add_argument('disable-gpu')
+    driver_options.add_argument('--disable-gpu')
+    driver_options.add_argument('--no-sandbox')
     driver_options.add_argument('lang=ko_KR') # 언어 설정
 
     # riot developer 접속
-    driver = webdriver.Chrome(executable_path=os.path.abspath("chromedriver"), chrome_options=driver_options) 
+    # driver = webdriver.Chrome(executable_path=os.path.abspath("chromedriver"), chrome_options=driver_options) 
+    driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=chrome_options)
     driver.get("https://developer.riotgames.com/")
 
     # LOGIN 버튼 클릭
