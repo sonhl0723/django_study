@@ -30,7 +30,7 @@ def search_result(request):
     # 새로운 chrome 창 안뜨게 설정
     driver_options = webdriver.ChromeOptions()
     # driver_options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-    # driver_options.add_argument('--headless') # 새로운 창 사용 중지
+    driver_options.add_argument('--headless') # 새로운 창 사용 중지
     driver_options.add_argument("--disable-dev-shm-usage")
     driver_options.add_argument("--no-sandbox")
     driver_options.add_argument('lang=ko_KR') # 언어 설정
