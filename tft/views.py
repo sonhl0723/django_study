@@ -40,9 +40,9 @@ def search_result(request):
     # driver_options.binary_location = os.environ.get('GOOGLE_CHROME_PATH')
 
     # riot developer 접속
-    # driver = webdriver.Chrome(executable_path=os.path.abspath("chromedriver"), chrome_options=driver_options) 
+    driver = webdriver.Chrome(executable_path=os.path.abspath("chromedriver"), chrome_options=driver_options)
     # driver = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=driver_options)
-    driver = webdriver.Chrome(chrome_options=driver_options, executable_path=ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install())
+    # driver = webdriver.Chrome(chrome_options=driver_options, executable_path=ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install())
     driver.get("https://developer.riotgames.com/")
 
     # LOGIN 버튼 클릭
